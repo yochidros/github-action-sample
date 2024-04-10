@@ -2,10 +2,8 @@ name: "create tag"
 
 on:
   pull_request:
-    types:
-      - merged
-    branches:
-      - "chore/update-next-version"
+    types: [closed]
+    branches: ["chore/update-next-version"]
 
 jobs:
   pull_request_merge:
