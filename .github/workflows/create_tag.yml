@@ -1,15 +1,22 @@
-name: "create tag"
+name: "push tag"
 
 on:
   pull_request:
     types: [closed]
+    branches: [develop]
 
 jobs:
   pull_request_merge:
     runs-on: ubuntu-20.04
-    timeout-minutes: 10
+    if: github.event.pull_request.merged == true
+    timeout-minutes: 2
 
     steps:
+      - name: Check source branch
+        run: |
+          if [[ "${{ github.head_ref }}" != "chore/update-next-version" ]]; then
+            exit 0
+          fi
       - name: Generate Token
         uses: actions/create-github-app-token@v1
         id: generate-token
