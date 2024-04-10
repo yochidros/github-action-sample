@@ -25,25 +25,16 @@ jobs:
 
       - name: Create next version
         run: |
-          echo 'hello'
+          git branch
           bash change.sh
-          git diff
+          git config user.name yochibot
+          git config user.email no-replay-yochibot@github.com
+          git add .
+          git commit -m "update version"
 
-      # - name: Create After Release Pull Request
-      #   uses: peter-evans/create-pull-request@v6
-      #   with:
-      #     token: ${{ steps.generate-token.outputs.token }}
-
-      # - name: Fast Forword Merge
-      #   uses: robotology/gh-action-nightly-merge@v1.4.0
-      #   with:
-      #     stable_branch: ${{ github.event.pull_request.head.ref }}
-      #     development_branch: ${{ github.event.pull_request.base.ref }}
-      #
-      #     allow_ff: true
-      #     ff_only: true
-      #     allow_git_lfs: true
-      #     allow_forks: false
-      #
-      #   env:
-      #     GITHUB_TOKEN: ${{ steps.generate-token.outputs.token }}
+      - name: Create After Release Pull Request
+        uses: peter-evans/create-pull-request@v6
+        with:
+          token: ${{ steps.generate-token.outputs.token }}
+          base: develop
+          branch: chore/update-next-version
