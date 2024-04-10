@@ -2,7 +2,7 @@ name: "prepare after release process"
 
 on:
   push:
-    branches: [master]
+    branches: [main]
 
 jobs:
   pull_request_merge:
@@ -26,6 +26,8 @@ jobs:
       - name: Create next version
         run: |
           echo 'hello'
+          bash change.sh
+          git diff
 
       # - name: Create After Release Pull Request
       #   uses: peter-evans/create-pull-request@v6
