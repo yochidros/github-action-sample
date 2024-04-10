@@ -1,8 +1,11 @@
 name: "prepare after release process"
 
 on:
-  push:
-    branches: [main]
+  pull_request:
+    types:
+      - closed
+    branches:
+      - "chore/update-next-version"
 
 jobs:
   pull_request_merge:
@@ -21,21 +24,13 @@ jobs:
         uses: actions/checkout@v2
         with:
           token: ${{ steps.generate-token.outputs.token }}
-          ref: develop
+          ref: main
 
       - name: Create next version
         run: |
           git branch
-          bash change.sh
+          tag_name="v$(sed -e 's/.*= \([0-9]*\.[0-9]*\.[0-9]*\).*/\1/' ./version.txt)"
           git config user.name yochibot
           git config user.email no-replay-yochibot@github.com
-          git add .
-          git commit -m "update version"
-
-      - name: Create After Release Pull Request
-        uses: peter-evans/create-pull-request@v6
-        with:
-          token: ${{ steps.generate-token.outputs.token }}
-          base: develop
-          branch: chore/update-next-version
-          title: Update Next Version
+          git tag $tag_name
+          git push origin $tag_name
