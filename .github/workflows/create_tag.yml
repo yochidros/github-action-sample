@@ -1,9 +1,9 @@
-name: "prepare after release process"
+name: "create tag"
 
 on:
   pull_request:
     types:
-      - closed
+      - merged
     branches:
       - "chore/update-next-version"
 
