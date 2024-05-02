@@ -17,6 +17,7 @@ jobs:
           if [[ "${{ github.head_ref }}" =~ "chore/update-next-version" ]]; then
             echo "push tag release version"
           else
+            echo "not needed"
             exit 0
           fi
       - name: Generate Token
