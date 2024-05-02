@@ -14,7 +14,9 @@ jobs:
     steps:
       - name: Check source branch
         run: |
-          if [[ "${{ github.head_ref }}" != "chore/update-next-version" ]]; then
+          if [[ "${{ github.head_ref }}" =~ "chore/update-next-version" ]]; then
+            echo "push tag release version"
+          else
             exit 0
           fi
       - name: Generate Token
